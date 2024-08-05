@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:two_screen/cubit/cubit/thange_them_cubit.dart';
-import 'package:two_screen/main.dart';
-import 'package:two_screen/view/home.dart';
 
 class SecondScreen extends StatelessWidget {
   const SecondScreen({super.key});

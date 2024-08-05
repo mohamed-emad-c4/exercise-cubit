@@ -1,23 +1,24 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:two_screen/share_prefrence.dart';
 
 part 'counter_state.dart';
 
 class CounterCubit extends Cubit<CounterState> {
   CounterCubit() : super(CounterInitial());
-  int counter = 0;
+  Future<int> counter = SharePrefrenceClass().getCounter(key: 'counter');
   void decrement() {
-    counter--;
+   
     emit(CounterMinusOne());
   }
 
   void reset() {
-    counter = 0;
+    
     emit(CounterReset());
   }
 
   void increment() {
-    counter++;
+    
     emit(CounterPlusOne());
   }
 }

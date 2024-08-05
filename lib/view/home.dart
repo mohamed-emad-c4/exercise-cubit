@@ -1,12 +1,15 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:two_screen/share_prefrence.dart';
 import 'package:two_screen/view/second_screen.dart';
 
 import '../cubit/counter_cubit.dart';
 
 class Home extends StatelessWidget {
-  Home({super.key});
-  int counter = 0;
+  Home({super.key, required this.counter});
+  int counter ;
 
   @override
   Widget build(BuildContext context) {
@@ -33,10 +36,13 @@ class Home extends StatelessWidget {
           listener: (context, state) {
             if (state is CounterPlusOne) {
               counter++;
+              SharePrefrenceClass().saveCounter(counter: counter);
             } else if (state is CounterMinusOne) {
               counter--;
+              SharePrefrenceClass().saveCounter(counter: counter);
             } else if (state is CounterReset) {
               counter = 0;
+              SharePrefrenceClass().saveCounter(counter: counter);
             }
           },
           builder: (context, state) {
@@ -59,8 +65,9 @@ class Home extends StatelessWidget {
                       icon: const Icon(Icons.remove),
                     ),
                     IconButton(
-                      onPressed: () {
+                      onPressed: () async {
                         BlocProvider.of<CounterCubit>(context).increment();
+                        
                       },
                       icon: const Icon(Icons.add),
                     ),
