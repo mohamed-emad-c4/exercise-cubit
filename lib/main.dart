@@ -8,16 +8,27 @@ import 'cubit/cubit/thange_them_cubit.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // تأكد من تشغيل النظام
+  bool isLight = await SharePrefrenceClass().getTheme();
+  ThemeData theTheme = ThemeData.light();
+
+  if (isLight) {
+    theTheme = ThemeData.light();
+  } else {
+    theTheme = ThemeData.dark();
+  }
 
   int counter = await SharePrefrenceClass().getCounter(key: 'counter');
-  runApp(MyApp(counter: counter));
+  runApp(MyApp(counter: counter, theTheme: theTheme));
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({super.key, required this.counter});
-  ThemeData theTheme = ThemeData.light();
+  MyApp({
+    super.key,
+    required this.counter,
+    required this.theTheme,
+  });
   final int counter;
-
+  ThemeData theTheme;
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -33,13 +44,17 @@ class MyApp extends StatelessWidget {
         listener: (context, state) {
           if (state is ThangeThemChangeDark) {
             theTheme = ThemeData.dark();
+            SharePrefrenceClass().saveTheme(counter: false);
           } else if (state is ThangeThemChangeLight) {
             theTheme = ThemeData.light();
+            SharePrefrenceClass().saveTheme(counter: true);
           } else if (state is ThemChange) {
             if (theTheme == ThemeData.dark()) {
               theTheme = ThemeData.light();
+              SharePrefrenceClass().saveTheme(counter: true);
             } else {
               theTheme = ThemeData.dark();
+              SharePrefrenceClass().saveTheme(counter: false);
             }
           }
         },
